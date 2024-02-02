@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani&family=Roboto&display=swap');
+
+body {
+  color: #c1c7cb;
+  font-size: 1rem;
+  line-height: 1.625;
+  /* font-family: 'Roboto', sans-serif; */
+  background-color: #000;
+  margin: 0px;
+  padding: 0px;
+}
+
+.main_headre {
+  background-color: transparent;
+  margin-top: 1rem;
+}
+
+
+/* .main_logo {
+  width: 100px;
+} */
+
+.main_logo img {
+  width: 100%;
+}
+
+.header_links {
+  color: #c1c7cb !important;
+  /* font-family: 'Rajdhani', sans-serif; */
+  /* font-family: 'Roboto', sans-serif; */
+  font-weight: 400;
+  font-size: 1rem;
+  margin: 0px 10px;
+
+
+}
+
+.wallet_button {
+  background-color: transparent;
+  /* font-family: 'Roboto', sans-serif; */
+  font-weight: 400;
+  font-size: 16px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  color: #c1c7cb !important;
+  border: 1px solid #1199FA;
+  padding: 5px 15px !important;
+}
+
+
+
+
+.wallet_button2 {
+  background-color: transparent;
+  /* font-family: 'Roboto', sans-serif; */
+  font-weight: 400;
+  font-size: 16px;
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  color: #c1c7cb !important;
+  border: 1px solid #1199FA;
+  padding: 10px 30px !important;
+  /* margin-left: -1rem; */
+}
+.in_resonsive{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* border: 1px solid red; */
+  width: 35%;
+}
+@media only screen and (max-width:600px) {
+  .header_links {
+    text-align: center !important;
+  }
+
+}
+
+@media (max-width:800px)  {
+  .wallet_button{
+    display: none;
+  }
+}
+
+@media (min-width:800px)  {
+  .wallet_button2{
+    display: none;
+  }
+}
