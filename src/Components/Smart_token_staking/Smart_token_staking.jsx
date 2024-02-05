@@ -2,6 +2,7 @@ import React from 'react'
 import "./Smart_token_staking.css"
 import logo from "../Assets/logoicon.svg"
 import bg from "../Assets/bg5.png"
+import Stake from '../Stake/Stake'
 export default function Smart_token_staking() {
   return (
     <div className='main_token_staking_page'> 
@@ -36,7 +37,7 @@ export default function Smart_token_staking() {
 
                     <div className='toatal_Stack mt-4'>
                         <p>Total stack</p>
-                        <h1>350.70 BUSD</h1>
+                        <h1>350.70 MART</h1>
                     </div>
                     <div className="plans_box">
                     <div className="inner_days_" style={{background:"#002F61"}}>
@@ -95,27 +96,27 @@ export default function Smart_token_staking() {
                 <div className='mt-3 mt-2'>
 
                
-                <p className='mb-0'>Balacne:342.54 BUSD</p>
+                <p className='mb-0'>Balacne:342.54 MART</p>
                 <div className='d-flex '>
                     <div className="swap_input_b d-flex ">
                     <input type="text" className='wap_iiinnn' placeholder='0.00' />
                     <button>Max</button>
 
                     </div>
-                    <button className='swap_clr_btn'>Withdraw</button>
+                    <button className='swap_clr_btn'>Stake </button>
                 </div>
                 </div>
                 <div className='mt-4'>
 
                
-                <p className='mb-0'>Staked:342.54 BUSD</p>
+                <p className='mb-0'>Staked:342.54 MART</p>
                 <div className='d-flex '>
                     <div className="swap_input_b d-flex ">
                     <input type="text" className='wap_iiinnn' placeholder='0.00' />
                     <button>Max</button>
 
                     </div>
-                    <button className='swap_clr_btn'>Approve</button>
+                    <button className='swap_clr_btn'>Claim </button>
                 </div>
                 </div>
 
@@ -128,8 +129,12 @@ export default function Smart_token_staking() {
 
             </div>
             <img src={bg} className='token_ts d-none d-md-block' alt="" />
-
+    
             </div>
+        </div>
+
+        <div className="row">
+          <Stake/>
         </div>
     </div>
     </div>
