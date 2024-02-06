@@ -27,6 +27,9 @@ export default function Smart_token_staking() {
   const [claimSpinner, setclaimSpinner] = useState(false);
   const [totalTokenStake, settotalTokenStake] = useState(0)
   const [numberOfTotalStakers, setNumberOfTotalStakers] = useState(0)
+  const [Claimable, setClaimable] = useState(0)
+
+
 
   const webSupply = new Web3("https://bsc-testnet.public.blastapi.io");
 
@@ -124,12 +127,21 @@ export default function Smart_token_staking() {
         settokenBalance(tokenBalace);
       }
       let totalStaked = await ContractOf.methods.totalStaked().call();
+      let claimable = await ContractOf.methods.pendindRewards(address).call();
+      let userinformation = await ContractOf.methods.userInformation(address).call();
+
+      
       totalStaked = webSupply.utils.fromWei(totalStaked.toString());
+      claimable = webSupply.utils.fromWei(claimable.toString());
+
 
       settotalTokenStake(totalStaked)
+      setClaimable(claimable)
       let totalStakers = await ContractOf.methods.totalStakers().call();
       // totalStakers = webSupply.utils.fromWei(totalStakers.toString());
       console.log("totalStakers", totalStakers);
+      console.log("claimable", claimable);
+
       setNumberOfTotalStakers(totalStakers)
     } catch (error) {
       console.log(error);
@@ -198,7 +210,7 @@ export default function Smart_token_staking() {
 
                     <div className="toatal_Stack mt-4">
                       <p>Total Stake</p>
-                      <h1>{totalTokenStake} MART</h1>
+                      <h1>{totalTokenStake} $MART</h1>
                     </div>
                     <div className="plans_box">
                       <div
@@ -266,7 +278,7 @@ export default function Smart_token_staking() {
                     </div>
                     <div className="mt-3 mt-2">
                       <p className="mb-0">
-                        Balacne:{parseFloat(tokenBalance).toFixed(3)} MART
+                        Balance:{parseFloat(tokenBalance).toFixed(3)} $MART
                       </p>
                       <div className="d-flex ">
                         <div className="swap_input_b d-flex ">
@@ -295,23 +307,20 @@ export default function Smart_token_staking() {
                       </div>
                     </div>
                     <div className="mt-4">
-                      <p className="mb-0">Your Stake:{totalTokenStake} MART</p>
+                      <p className="mb-0">Your Stake:{totalTokenStake} $MART</p>
                       <div className="d-flex ">
                         <div
                           className="swap_input_b d-flex "
                           style={{ cursor: "no-drop" }}
                         >
-                          <input
-                            type="text"
-                            className="wap_iiinnn"
-                            placeholder="0.00"
-                            style={{ cursor: "no-drop" }}
-                            disabled="true"
-                          />
 
-                          <button disabled="true" style={{ cursor: "no-drop" }}>
+                      <p className="mb-0">Ready to Claim: {Claimable} $MART </p>
+
+                       
+
+                          {/* <button disabled="true" style={{ cursor: "no-drop" }}>
                             Max
-                          </button>
+                          </button> */}
                         </div>
                         <button className="swap_clr_btn" onClick={ClaimToken}>
                           {claimSpinner ? "Loading.." : "Claim"}{" "}
