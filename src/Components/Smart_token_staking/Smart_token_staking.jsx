@@ -194,10 +194,10 @@ export default function Smart_token_staking() {
               <div className="row align-items-center ">
                 <div className="col-md-7">
                   <div className="lef_token_stk_co">
-                    <h1>Participate $MART stack</h1>
+                    <h1>Participate $MART Stake</h1>
 
                     <div className="toatal_Stack mt-4">
-                      <p>Total stack</p>
+                      <p>Total Stake</p>
                       <h1>{totalTokenStake} MART</h1>
                     </div>
                     <div className="plans_box">
@@ -236,23 +236,23 @@ export default function Smart_token_staking() {
                           <p className="plan_eng">Lock period</p>
                           <p className="plan_text">{plan} days</p>
                         </div>
-                        <div className="d-flex mt-2 justify-content-between">
+                        {/* <div className="d-flex mt-2 justify-content-between">
                           <p className="plan_eng">Re-locks on registration</p>
                           <p className="plan_text">Yes</p>
-                        </div>
+                        </div> */}
                         <div className="d-flex mt-2 justify-content-between">
                           <p className="plan_eng">Early unstake fee</p>
                           <p className="plan_text">10%</p>
                         </div>
-                        <div className="d-flex mt-2 justify-content-between">
+                        {/* <div className="d-flex mt-2 justify-content-between">
                           <p className="plan_eng">Status</p>
                           <p className="plan_text">unlocked</p>
-                        </div>
+                        </div> */}
                       </div>
                       <div className="col-md-5">
                         <div className="apy_rates text-center">
                           <p>Apy Rate</p>
-                          <h1>10%</h1>
+                          <h1>{plan==365 ? "286":"136"}%</h1>
                         </div>
                       </div>
                     </div>
@@ -295,7 +295,7 @@ export default function Smart_token_staking() {
                       </div>
                     </div>
                     <div className="mt-4">
-                      <p className="mb-0">Staked:{totalTokenStake} MART</p>
+                      <p className="mb-0">Your Stake:{totalTokenStake} MART</p>
                       <div className="d-flex ">
                         <div
                           className="swap_input_b d-flex "
