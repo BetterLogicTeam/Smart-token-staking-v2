@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.7bcb20b6.css",
-    "main.js": "/static/js/main.1c4ef329.js",
+    "main.js": "/static/js/main.f701a806.js",
     "static/js/458.6cbf0c93.chunk.js": "/static/js/458.6cbf0c93.chunk.js",
     "static/js/858.773058e3.chunk.js": "/static/js/858.773058e3.chunk.js",
     "static/js/968.e95a4ab2.chunk.js": "/static/js/968.e95a4ab2.chunk.js",
@@ -20,7 +20,7 @@
     "static/media/P2p_bg.png": "/static/media/P2p_bg.680c53c4c132a9662718.png",
     "static/media/bg4.png": "/static/media/bg4.a967f2bbfd0af2a511f3.png",
     "static/media/FooterLogo.png": "/static/media/FooterLogo.e6975d80b8b4d12cecbf.png",
-    "static/media/logoicon.svg": "/static/media/logoicon.84c6d6f1d43b52a2d69aae7542daf61f.svg",
+    "static/media/logoicon.svg": "/static/media/logoicon.ade2652e618dfe57d6f52ab43b3600b7.svg",
     "static/media/lqfirspeak-1.svg": "/static/media/lqfirspeak-1.1a6a7f05f21c33e56de9e523f2f18c01.svg",
     "static/media/lqfirspeak-2.svg": "/static/media/lqfirspeak-2.53909c80ab7bcd40bd94abf70c96e3a9.svg",
     "static/media/rt2.svg": "/static/media/rt2.b66d1a457fdae07459b927048c76d5b3.svg",
@@ -35,7 +35,7 @@
     "static/media/FB.svg": "/static/media/FB.e6c11d9a71222ab05f33b20b7e69de84.svg",
     "static/media/circle.svg": "/static/media/circle.089cbef6ace0c9b3d984bb9bee8aedd0.svg",
     "main.7bcb20b6.css.map": "/static/css/main.7bcb20b6.css.map",
-    "main.1c4ef329.js.map": "/static/js/main.1c4ef329.js.map",
+    "main.f701a806.js.map": "/static/js/main.f701a806.js.map",
     "458.6cbf0c93.chunk.js.map": "/static/js/458.6cbf0c93.chunk.js.map",
     "858.773058e3.chunk.js.map": "/static/js/858.773058e3.chunk.js.map",
     "968.e95a4ab2.chunk.js.map": "/static/js/968.e95a4ab2.chunk.js.map",
@@ -46,6 +46,6 @@
   },
   "entrypoints": [
     "static/css/main.7bcb20b6.css",
-    "static/js/main.1c4ef329.js"
+    "static/js/main.f701a806.js"
   ]
 }

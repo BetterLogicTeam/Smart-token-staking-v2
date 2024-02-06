@@ -148,7 +148,7 @@ export default function Tab_page() {
         </span>
         <div className="balnce_text"> Your wallet  : { parseFloat(getBalance.toString()).toFixed(3)} BNB</div>
       </div>
-    
+
       <div className="box_busd ">
         <div className="d-flex justify-content-between">
         <p>Amount in BNB </p>

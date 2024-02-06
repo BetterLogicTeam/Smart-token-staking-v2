@@ -1,9 +1,75 @@
 import React, { useEffect, useState } from "react";
 import "./Stake.css";
 
+import { useAccount } from "wagmi";
+import {
+  Token_staking_Contract_ABI,
+  Token_staking_Contract_Address,
+  Token_staking_Token_Contract_ABI,
+  Token_staking_Token_Contract_Address,
+} from "../Contract/Contract";
+import Web3 from "web3";
+import moment from "moment";
+import Countdown from "react-countdown";
+import {
+  prepareWriteContract,
+  waitForTransaction,
+  writeContract,
+} from "@wagmi/core";
+import { toast } from "react-hot-toast";
+import { Button, Popover } from "antd";
+import { Modal, Space } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 const Stake = () => {
-  
+  const { address } = useAccount();
+  const [spinner, setspinner] = useState(false);
+
+  const WebSupply = new Web3("https://bsc-testnet.public.blastapi.io");
+
+  const [Stake_History_show, setStake_History_show] = useState([]);
+
+  const Stake_History = async () => {
+    try {
+      let stakingContractOf = new WebSupply.eth.Contract(
+        Token_staking_Contract_ABI,
+        Token_staking_Contract_Address
+      );
+      if (address) {
+        let History_obj = {};
+        let UserInformation = await stakingContractOf.methods
+          .userInformation(address)
+          .call();
+        console.log("UserInformation", UserInformation);
+        let array1 = UserInformation[0];
+        let array2 = UserInformation[1];
+        let array3 = UserInformation[2];
+        let myArray = [];
+
+        for (let i = 0; i < array1.length; i++) {
+          // let date =new Date(Number(array3[i])*1000).toUTCString();
+          let currentTimestamp = array3[i];
+          let amount = WebSupply.utils.fromWei(array1[i].toString());
+
+          let date = moment(Number(array3[i]) * 1000).format("DD-MM-YYYY");
+          let obj = {
+            Sno: i + 1,
+            address: address,
+            amount: amount,
+            unLoackTime: Number(currentTimestamp) + Number(60) * array2[i],
+            LockTime: date,
+          };
+          myArray = [...myArray, obj];
+        }
+        setStake_History_show(myArray);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    Stake_History();
+  }, [address]);
 
   const Completionist = () => {
     return (
@@ -21,36 +87,46 @@ const Stake = () => {
       return (
         <div className="text_days fs-5 ">
           {/* {days} D {hours} H {minutes} M {seconds} S */}
-          {/* {days}d : {hours}h : {minutes}m : {seconds}s */}
+          {days}d : {hours}h : {minutes}m : {seconds}s
         </div>
       );
     }
   };
+  const confirm = (index) => {
+    Modal.confirm({
+      title: "Confirm",
+      icon: <ExclamationCircleOutlined />,
+      content:
+        "Before unstake time 10% will be deducted your amount and reward",
+      okText: "Continue",
+      cancelText: "Cancel",
+      onOk: () => Withdraw(index),
+    });
+  };
 
-  // const Withdraw = async (index) => {
-  //   try {
-  //     setspinner(true);
-  //     const { request } = await prepareWriteContract({
-  //       address: Staking_Address,
-  //       abi: Staking_Abi,
-  //       functionName: "harvest",
-  //       args: [[index]],
-  //       account: address,
-  //     });
-  //     const { hash } = await writeContract(request);
-  //     const data = await waitForTransaction({
-  //       hash,
-  //     });
-  //     setTimeout(() => {
-  //       setspinner(false);
-  //       toast.success("Transaction Completed");
-  //     }, 4000);
-  //   } catch (error) {
-  //     console.log(error);
-  //     setspinner(false);
-  //   }
-  // };
-
+  const Withdraw = async (index) => {
+    try {
+      setspinner(true);
+      const { request } = await prepareWriteContract({
+        address: Token_staking_Contract_Address,
+        abi: Token_staking_Contract_ABI,
+        functionName: "harvest",
+        args: [[index]],
+        account: address,
+      });
+      const { hash } = await writeContract(request);
+      const data = await waitForTransaction({
+        hash,
+      });
+      setTimeout(() => {
+        setspinner(false);
+        toast.success("Transaction Completed");
+      }, 4000);
+    } catch (error) {
+      console.log(error);
+      setspinner(false);
+    }
+  };
   return (
     <div>
       <div className="container mx-auto lg:px-10 py-5">
@@ -88,7 +164,7 @@ const Stake = () => {
               </div>
             </div>
             <div
-              className="MuiTableContainer-root css-48ybtg"
+              className="MuiTableContainer-root css-48ybtg mt-4"
               border="none"
               pt={2}
               pb={5}
@@ -138,8 +214,8 @@ const Stake = () => {
                   </tr>
                 </thead>
                 <tbody className="MuiTableBody-root css-1xnox0e">
-                  
-                  
+                  {Stake_History_show.length == 0 ? (
+                    <>
                       <td
                         className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-q34dxg"
                         colSpan={5}
@@ -150,59 +226,79 @@ const Stake = () => {
                             You have no staking data
                           </p>
                         </div>
-                      </td>
-
-                  
-                   
+                      </td>{" "}
+                    </>
+                  ) : (
                     <>
-                     
-                        
-                       
-                        
+                      {Stake_History_show.map((items, index) => {
+                        let current_Time = Math.floor(
+                          new Date().getTime() / 1000.0
+                        );
+
+                        return (
+                          <>
+                            {items.unstaked == true ||
+                            items.withdrawan == true ? (
+                              <></>
+                            ) : (
+                              <>
                                 <tr className="MuiTableRow-root css-1gqug66">
                                   <td
                                     className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-q34dxg text-white text-center"
                                     scope="col"
                                   >
-                                  
+                                    {items.Sno}
                                   </td>
                                   <td
                                     className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-q34dxg text-white text-center"
                                     scope="col"
                                   >
-                                  
-                                  </td>
-                                
-                                
-                                  <td
-                                    className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-q34dxg text-white text-center"
-                                    scope="col"
-                                  >
-                                   
+                                    {items.amount}
                                   </td>
                                   <td
                                     className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-q34dxg text-white text-center"
                                     scope="col"
                                   >
-                                    {/* <button
-                                      className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-4hkj1c"
+                                    <Countdown
+                                      date={
+                                        Date.now() +
+                                        (parseInt(items.unLoackTime) * 1000 -
+                                          Date.now())
+                                      }
+                                      renderer={renderer}
+                                    />
+                                  </td>
+                                  <td
+                                    className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-q34dxg text-white text-center"
+                                    scope="col"
+                                  >
+                                    <button
+                                      className="inner_btn_site"
                                       tabIndex={0}
                                       type="button"
-                                      
+                                      style={{ width: "5rem" }}
+                                      onClick={() =>
+                                        current_Time >= items.unLoackTime
+                                          ? Withdraw(index)
+                                          : confirm(index)
+                                      }
                                     >
-                                   
+                                      {/* {
+                                        spinner ?
+                                        "Loading ...":"Unstake"
+                                      } */}
                                       Unstake
-                                      
                                       <span className="MuiTouchRipple-root css-w0pj6f" />
-                                    </button> */}
+                                    </button>
                                   </td>{" "}
                                 </tr>{" "}
                               </>
-                     
-                  {/* <div className="totla">
-                    <p >Total Reward:</p>
-                  </div> */}
-                 
+                            )}
+                          </>
+                        );
+                      })}
+                    </>
+                  )}
                 </tbody>
               </table>
             </div>
