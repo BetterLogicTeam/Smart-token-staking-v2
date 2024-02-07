@@ -28,7 +28,7 @@ export default function Smart_token_staking() {
   const [totalTokenStake, settotalTokenStake] = useState(0);
   const [numberOfTotalStakers, setNumberOfTotalStakers] = useState(0);
   const [Claimable, setClaimable] = useState(0);
-  const [yourStake, setyourStake] = useState(0)
+  const [yourStake, setyourStake] = useState(0);
 
   const webSupply = new Web3("https://bsc-testnet.public.blastapi.io");
 
@@ -124,16 +124,17 @@ export default function Smart_token_staking() {
           .call();
         tokenBalace = webSupply.utils.fromWei(tokenBalace.toString());
         settokenBalance(tokenBalace);
-        let claimable = await ContractOf.methods.pendindRewards(address).call();
-        claimable = webSupply.utils.fromWei(claimable.toString());
-        setClaimable(claimable);
+
         let userinformation = await ContractOf.methods
           .userInformation(address)
           .call();
-          userinformation = userinformation[0].reduce((items, curr) => items + parseInt(curr), 0);
-          userinformation = webSupply.utils.fromWei(userinformation.toString());
-          console.log("userinformation",userinformation);
-          setyourStake(userinformation)
+        userinformation = userinformation[0].reduce(
+          (items, curr) => items + parseInt(curr),
+          0
+        );
+        userinformation = webSupply.utils.fromWei(userinformation.toString());
+        console.log("userinformation", userinformation);
+        setyourStake(userinformation);
       }
       let totalStaked = await ContractOf.methods.totalStaked().call();
       totalStaked = webSupply.utils.fromWei(totalStaked.toString());
@@ -172,8 +173,29 @@ export default function Smart_token_staking() {
     }
   };
 
+  const getclaimReward = async () => {
+    try {
+      let ContractOf = new webSupply.eth.Contract(
+        Token_staking_Contract_ABI,
+        Token_staking_Contract_Address
+      );
+      if (address) {
+        let claimable = await ContractOf.methods.pendindRewards(address).call();
+        claimable = webSupply.utils.fromWei(claimable.toString());
+        // console.log("claimable",claimable);
+        setClaimable(claimable);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     balanceOf();
+    let interval = setInterval(() => {
+      getclaimReward();
+    }, 1000);
+    return () => clearInterval(interval);
   }, [address, spinner, claimSpinner]);
   return (
     <div className="main_token_staking_page">
@@ -311,7 +333,10 @@ export default function Smart_token_staking() {
                           className="swap_input_b w-100 d-flex p-2 "
                           style={{ cursor: "no-drop" }}
                         >
-                          <p className="mb-0"> {parseFloat(Claimable).toFixed(3)} </p>
+                          <p className="mb-0">
+                            {" "}
+                            {parseFloat(Claimable).toFixed(6)}{" "}
+                          </p>
 
                           {/* <button disabled="true" style={{ cursor: "no-drop" }}>
                             Max

@@ -56,7 +56,7 @@ const Stake = () => {
             Sno: i + 1,
             address: address,
             amount: amount,
-            unLoackTime: Number(currentTimestamp) + Number(60) * array2[i],
+            unLoackTime: Number(currentTimestamp) + Number(86400) * array2[i],
             LockTime: date,
           };
           myArray = [...myArray, obj];
