@@ -25,11 +25,10 @@ export default function Smart_token_staking() {
   const [spinner, setspinner] = useState(false);
   const [tokenBalance, settokenBalance] = useState(0);
   const [claimSpinner, setclaimSpinner] = useState(false);
-  const [totalTokenStake, settotalTokenStake] = useState(0)
-  const [numberOfTotalStakers, setNumberOfTotalStakers] = useState(0)
-  const [Claimable, setClaimable] = useState(0)
-
-
+  const [totalTokenStake, settotalTokenStake] = useState(0);
+  const [numberOfTotalStakers, setNumberOfTotalStakers] = useState(0);
+  const [Claimable, setClaimable] = useState(0);
+  const [yourStake, setyourStake] = useState(0)
 
   const webSupply = new Web3("https://bsc-testnet.public.blastapi.io");
 
@@ -125,24 +124,23 @@ export default function Smart_token_staking() {
           .call();
         tokenBalace = webSupply.utils.fromWei(tokenBalace.toString());
         settokenBalance(tokenBalace);
+        let claimable = await ContractOf.methods.pendindRewards(address).call();
+        claimable = webSupply.utils.fromWei(claimable.toString());
+        setClaimable(claimable);
+        let userinformation = await ContractOf.methods
+          .userInformation(address)
+          .call();
+          userinformation = userinformation[0].reduce((items, curr) => items + parseInt(curr), 0);
+          userinformation = webSupply.utils.fromWei(userinformation.toString());
+          console.log("userinformation",userinformation);
+          setyourStake(userinformation)
       }
       let totalStaked = await ContractOf.methods.totalStaked().call();
-      let claimable = await ContractOf.methods.pendindRewards(address).call();
-      let userinformation = await ContractOf.methods.userInformation(address).call();
-
-      
       totalStaked = webSupply.utils.fromWei(totalStaked.toString());
-      claimable = webSupply.utils.fromWei(claimable.toString());
+      settotalTokenStake(totalStaked);
 
-
-      settotalTokenStake(totalStaked)
-      setClaimable(claimable)
       let totalStakers = await ContractOf.methods.totalStakers().call();
-      // totalStakers = webSupply.utils.fromWei(totalStakers.toString());
-      console.log("totalStakers", totalStakers);
-      console.log("claimable", claimable);
-
-      setNumberOfTotalStakers(totalStakers)
+      setNumberOfTotalStakers(totalStakers);
     } catch (error) {
       console.log(error);
     }
@@ -176,7 +174,7 @@ export default function Smart_token_staking() {
 
   useEffect(() => {
     balanceOf();
-  }, [address]);
+  }, [address, spinner, claimSpinner]);
   return (
     <div className="main_token_staking_page">
       <div className="container">
@@ -264,7 +262,7 @@ export default function Smart_token_staking() {
                       <div className="col-md-5">
                         <div className="apy_rates text-center">
                           <p>Apy Rate</p>
-                          <h1>{plan==365 ? "286":"136"}%</h1>
+                          <h1>{plan == 365 ? "286" : "136"}%</h1>
                         </div>
                       </div>
                     </div>
@@ -278,7 +276,7 @@ export default function Smart_token_staking() {
                     </div>
                     <div className="mt-3 mt-2">
                       <p className="mb-0">
-                        Balance:{parseFloat(tokenBalance).toFixed(3)} $MART
+                        Balance: {parseFloat(tokenBalance).toFixed(3)} $MART
                       </p>
                       <div className="d-flex ">
                         <div className="swap_input_b d-flex ">
@@ -307,16 +305,13 @@ export default function Smart_token_staking() {
                       </div>
                     </div>
                     <div className="mt-4">
-                      <p className="mb-0">Your Stake:{totalTokenStake} $MART</p>
+                      <p className="mb-0">Your Stake: {yourStake} $MART</p>
                       <div className="d-flex ">
                         <div
-                          className="swap_input_b d-flex "
+                          className="swap_input_b w-100 d-flex p-2 "
                           style={{ cursor: "no-drop" }}
                         >
-
-                      <p className="mb-0">Ready to Claim: {Claimable} $MART </p>
-
-                       
+                          <p className="mb-0"> {parseFloat(Claimable).toFixed(3)} </p>
 
                           {/* <button disabled="true" style={{ cursor: "no-drop" }}>
                             Max

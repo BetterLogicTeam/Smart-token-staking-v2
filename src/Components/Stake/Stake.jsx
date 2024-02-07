@@ -40,7 +40,7 @@ const Stake = () => {
         let UserInformation = await stakingContractOf.methods
           .userInformation(address)
           .call();
-        console.log("UserInformation", UserInformation);
+        // console.log("UserInformation", UserInformation);
         let array1 = UserInformation[0];
         let array2 = UserInformation[1];
         let array3 = UserInformation[2];
