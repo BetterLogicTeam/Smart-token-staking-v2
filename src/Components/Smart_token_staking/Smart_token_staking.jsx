@@ -28,6 +28,7 @@ export default function Smart_token_staking() {
   const [totalTokenStake, settotalTokenStake] = useState(0);
   const [numberOfTotalStakers, setNumberOfTotalStakers] = useState(0);
   const [Claimable, setClaimable] = useState(0);
+  const [checkAPY, setcheckAPY] = useState('92 %');
   const [yourStake, setyourStake] = useState(0);
 
   const webSupply = new Web3("https://bsc-testnet.public.blastapi.io");
@@ -46,6 +47,7 @@ export default function Smart_token_staking() {
         let minimumDeposit = await stakingContractOf.methods
           .minimumDeposit()
           .call();
+        
         minimumDeposit = webSupply.utils.fromWei(minimumDeposit.toString());
 
         if (getInput == 0 || getInput < minimumDeposit) {
@@ -118,6 +120,11 @@ export default function Smart_token_staking() {
         Token_staking_Contract_ABI,
         Token_staking_Contract_Address
       );
+      let APY = await ContractOf.methods
+      .checkAPY()
+      .call();
+     console.log("APY",APY); 
+      setcheckAPY(APY)   
       if (address) {
         let tokenBalace = await ContractOfToken.methods
           .balanceOf(address)
@@ -132,7 +139,9 @@ export default function Smart_token_staking() {
           (items, curr) => items + parseInt(curr),
           0
         );
-        userinformation = webSupply.utils.fromWei(userinformation.toString());
+        // userinformation = webSupply.utils.fromWei(userinformation.toString());
+        userinformation =Number(userinformation)/Number(1000000000000000000)
+
         console.log("userinformation", userinformation);
         setyourStake(userinformation);
       }
@@ -142,6 +151,7 @@ export default function Smart_token_staking() {
 
       let totalStakers = await ContractOf.methods.totalStakers().call();
       setNumberOfTotalStakers(totalStakers);
+      console.log("totalStakers",totalStakers);
     } catch (error) {
       console.log(error);
     }
@@ -209,7 +219,7 @@ export default function Smart_token_staking() {
           </div>
           <div className="col-md-4 mt-3 mt-md-0">
             <div className="black_box resvers">
-              <h1>136.99%</h1>
+              <h1>{checkAPY}</h1>
               <p>Apy</p>
             </div>
           </div>
@@ -284,7 +294,7 @@ export default function Smart_token_staking() {
                       <div className="col-md-5">
                         <div className="apy_rates text-center">
                           <p>Apy Rate</p>
-                          <h1>{plan == 365 ? "286" : "136"}%</h1>
+                          <h1>{checkAPY}</h1>
                         </div>
                       </div>
                     </div>
@@ -327,7 +337,7 @@ export default function Smart_token_staking() {
                       </div>
                     </div>
                     <div className="mt-4">
-                      <p className="mb-0">Your Stake: {yourStake} $MART</p>
+                      <p className="mb-0">Your Stake: {parseFloat(yourStake).toFixed(3)} $MART </p>
                       <div className="d-flex ">
                         <div
                           className="swap_input_b w-100 d-flex p-2 "
