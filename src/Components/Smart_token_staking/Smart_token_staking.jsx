@@ -28,7 +28,8 @@ export default function Smart_token_staking() {
   const [totalTokenStake, settotalTokenStake] = useState(0);
   const [numberOfTotalStakers, setNumberOfTotalStakers] = useState(0);
   const [Claimable, setClaimable] = useState(0);
-  const [checkAPY, setcheckAPY] = useState('92 %');
+  const [checkAPY, setcheckAPY] = useState(0);
+  const [TotalLocked, setTotalLocked] = useState(0);
   const [yourStake, setyourStake] = useState(0);
 
   const webSupply = new Web3("https://bsc-testnet.public.blastapi.io");
@@ -123,7 +124,12 @@ export default function Smart_token_staking() {
       let APY = await ContractOf.methods
       .checkAPY()
       .call();
+      let totalLocked = await ContractOf.methods
+      .totallocked()
+      .call();
+      totalLocked=webSupply.utils.fromWei(totalLocked.toString());
      console.log("APY",APY); 
+     setTotalLocked(totalLocked)
       setcheckAPY(APY)   
       if (address) {
         let tokenBalace = await ContractOfToken.methods
@@ -213,13 +219,13 @@ export default function Smart_token_staking() {
         <div className="row mt-5">
           <div className="col-md-4">
             <div className="black_box">
-              <h1>{totalTokenStake}</h1>
+              <h1>{TotalLocked}</h1>
               <p>Total value locked</p>
             </div>
           </div>
           <div className="col-md-4 mt-3 mt-md-0">
             <div className="black_box resvers">
-              <h1>{checkAPY}</h1>
+              <h1>{checkAPY} %</h1>
               <p>Apy</p>
             </div>
           </div>
@@ -294,7 +300,7 @@ export default function Smart_token_staking() {
                       <div className="col-md-5">
                         <div className="apy_rates text-center">
                           <p>Apy Rate</p>
-                          <h1>{checkAPY}</h1>
+                          <h1>{checkAPY} %</h1>
                         </div>
                       </div>
                     </div>
