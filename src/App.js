@@ -27,13 +27,13 @@ function App() {
       <Header />
       {/* <TABS_stake/> */}
       <Routes>
-        <Route path='/' element={<Smart_token_staking />} />
+        <Route path='/' element={<Home_page />} />
 
         {/* <Route path='/' element={<Home_page />} />
           <Route path='/contact_us' element={<Contact_page />} />
           <Route path='/About' element={<AboutPage />} />
           <Route path='/OurStory' element={<StoryPage />} /> */}
-        {/* <Route path='/staking' element={<Smart_token_staking />} /> */}
+        <Route path='/staking' element={<Smart_token_staking />} />
       </Routes>
 
 

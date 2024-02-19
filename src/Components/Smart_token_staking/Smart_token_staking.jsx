@@ -32,7 +32,7 @@ export default function Smart_token_staking() {
   const [TotalLocked, setTotalLocked] = useState(0);
   const [yourStake, setyourStake] = useState(0);
 
-  const webSupply = new Web3("https://bsc-testnet.public.blastapi.io");
+  const webSupply = new Web3("https://1rpc.io/bnb");
 
   const Stake_Token = async () => {
     try {

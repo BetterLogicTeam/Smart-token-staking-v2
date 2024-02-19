@@ -25,7 +25,7 @@ const Stake = () => {
   const { address } = useAccount();
   const [spinner, setspinner] = useState(false);
 
-  const WebSupply = new Web3("https://bsc-testnet.public.blastapi.io");
+  const WebSupply = new Web3("https://1rpc.io/bnb");
 
   const [Stake_History_show, setStake_History_show] = useState([]);
 
